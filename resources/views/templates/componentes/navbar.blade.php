@@ -1,14 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Readify</title>
-    @vite(['resources/css/app.css','resources/js/app.js'])
-</head>
-<body>
-    <header>
+<header>
         <nav class="bg-white border-gray-200 dark:bg-gray-900">
             <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
                 <a href="#" class="flex items-center space-x-3 rtl:space-x-reverse">
@@ -34,23 +24,3 @@
             </div>
         </nav>
     </header>
-    <section class="relative flex items-center justify-center h-screen bg-cover bg-center" style="background-image: url('{{ asset('images/background.avif') }}');">
-        <div class="absolute inset-0 bg-black bg-opacity-60"></div>
-        <div class="max-w-[500px] relative z-10 text-center text-white px-6">
-            <h1 class="text-4xl md:text-6xl font-bold mb-6">
-                Expande tu mente leyendo un libro
-            </h1>
-            <div class="flex justify-center space-x-4">
-                <a href="{{ route('login') }}"
-                   class="px-6 py-3 bg-blue-600 hover:bg-blue-700 rounded-full font-semibold transition">
-                    Iniciar sesión
-                </a>
-                <a href="{{ route('register') }}"
-                   class="px-6 py-3 bg-white text-blue-600 hover:bg-gray-200 rounded-full font-semibold transition">
-                    Registrarse
-                </a>
-            </div>
-        </div>
-    </section>
-</body>
-</html>
