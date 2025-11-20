@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role'
     ];
 
     /**
@@ -45,4 +46,16 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function reviews()
+    {
+        return $this->hasMany(Review::class, 'id_user');
+    }
+    public function books()
+    {
+        return $this->belongsToMany(Book::class, 'user_books', 'id_user', 'id_book')
+                ->withPivot('status', 'num_pages')
+                ->withTimestamps();
+    }
+
 }
