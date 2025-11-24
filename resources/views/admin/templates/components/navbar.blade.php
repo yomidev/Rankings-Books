@@ -28,7 +28,9 @@
                             <a href="{{ route('admin.country') }}" class="inline-flex items-center w-full p-2 hover:bg-neutral-tertiary-medium hover:text-heading rounded text-white">Paises</a>
                           </li>
                           <li>
-                            <a href="#" class="inline-flex items-center w-full p-2 hover:bg-neutral-tertiary-medium hover:text-heading rounded">Settings</a>
+                            <a href="{{ route('admin.author.index') }}" class="inline-flex items-center w-full p-2 hover:bg-neutral-tertiary-medium hover:text-heading rounded text-white">
+                                Autores
+                            </a>
                           </li>
                           <li>
                             <a href="#" class="inline-flex items-center w-full p-2 hover:bg-neutral-tertiary-medium hover:text-heading rounded">Earnings</a>
