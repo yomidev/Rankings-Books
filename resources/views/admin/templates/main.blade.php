@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Admin Dashboard</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @include('admin.templates.components.scripts')
 </head>
 <body>
     @yield('navbar')
@@ -13,4 +14,5 @@
         @yield('content') 
     </main>
 </body>
+
 </html>

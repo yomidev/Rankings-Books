@@ -3,7 +3,8 @@
     @include('admin.templates.components.navbar')
 @endsection
 @section('content')
-<main class="content p-5">
+< class="content p-5">
+    
 <div class="mb-7 mt-4">
     <a href="{{ route('admin.author.create') }}" class="bg-green-800 p-3 text-white font-bold border border-md">CREAR</a>
 </div>
@@ -59,6 +60,16 @@
     </table>
     {{ $authors->links() }}
 </div>
-
 </main>
+@endsection
+@section('scripts')
+<script>
+    alert('hola');
+    /*Swal.fire({
+        title: 'Hola',
+        text: 'Este es un mensaje de prueba',
+        icon: 'info',
+        confirmButtonText: 'Aceptar'
+    })*/
+</script>
 @endsection

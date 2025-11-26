@@ -4,43 +4,80 @@
 @endsection
 @section('content')
 <main class="content p-5">
-<div class="mb-7 mt-4">
-    <a href="{{ route('admin.country.create') }}" class="bg-green-800 p-3 text-white font-bold border border-md">CREAR</a>
-</div>
-<div class="relative overflow-x-auto bg-neutral-primary-soft shadow-xs rounded-base border border-default">
-    <table class="w-full text-sm text-left rtl:text-right text-body">
-        <thead class="text-sm text-body bg-neutral-secondary-soft border-b rounded-base border-default">
-            <tr>
-                <th scope="col" class="px-6 py-3 font-medium">
-                    ID
-                </th>
-                <th scope="col" class="px-6 py-3 font-medium">
-                    Pais
-                </th>
-                <th scope="col" class="px-6 py-3 font-medium">
-                   Opciones
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($countries as $country)
-            <tr class="bg-neutral-primary border-b border-default">
-               <td>{{$country->id}}</td>
-               <td>{{$country->name}}</td>
-               <td>
-                <a href="{{ route('admin.country.edit',$country->id) }}">Editar</a>
-                <form action="{{ route('admin.country.delete', $country->id) }}" method="POST">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit">Eliminar</button>
-                </form>
-               </td>
-            </tr>
-            @endforeach
-        </tbody>
-    </table>
-    {{ $countries->links() }}
-</div>
-
+    <div class="w-full text-center bg-neutral-primary-soft p-6 border border-default rounded-base shadow-xs">
+        <h5 class="mb-3 text-2xl tracking-tight font-semibold text-heading">Panel de Administración de Países</h5>
+        <div class="mb-7 mt-5">
+            <a href="{{ route('admin.country.create') }}" class="bg-green-800 p-3 text-white font-bold border border-md rounded-lg hover:bg-green-500">+ AGREGAR NUEVO PAIS</a>
+        </div>
+        <div class="relative overflow-x-auto bg-neutral-primary-soft shadow-xs rounded-base border border-default p-6">
+            <table class="w-full text-sm text-left rtl:text-right text-body">
+                <thead class="text-sm text-body bg-neutral-secondary-soft border-b rounded-base border-default">
+                    <tr>
+                        <th scope="col" class="px-6 py-3 font-medium">ID</th>
+                        <th scope="col" class="px-6 py-3 font-medium">Pais</th>
+                        <th scope="col" class="px-6 py-3 font-medium">Opciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($countries as $country)
+                    <tr class="bg-neutral-primary border-b border-default">
+                        <td class="font-medium">{{$country->id}}</td>
+                        <td>{{$country->name}}</td>
+                        <td class="flex gap-4 p-2">
+                            <a href="{{ route('admin.country.edit',$country->id) }}" class="bg-yellow-800 p-2 text-white font-bold border border-md rounded-lg hover:bg-yellow-500">Editar</a>
+                            <form id="delete-form-{{ $country->id }}" action="{{ route('admin.country.delete', $country->id) }}" method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <button type="button" class="bg-red-800 p-2 text-white font-bold border border-md rounded-lg hover:bg-red-500" onclick="confirmDelete({{ $country->id }})">Eliminar</button>
+                            </form>
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+            {{ $countries->links() }}
+        </div>
+    </div>
 </main>
+    <script>
+
+        function confirmDelete(id){
+            Swal.fire({
+                title: '¿Estás seguro de eliminar el registro?',
+                text: "¡No podrás revertir esto!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sí, eliminarlo!',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById(`delete-form-${id}`).submit();
+                }
+            });
+        }
+    </script>
+    @if (session('success'))
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'Éxito',
+                text: '{{ session('success') }}',
+                timer: 3000,
+                showConfirmButton: false
+            })
+        </script>
+    @endif
+    @if (session('error'))
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: '{{ session('error') }}',
+                showConfirmButton: true
+            })
+        </script>
+    @endif
 @endsection
+

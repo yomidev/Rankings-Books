@@ -16,4 +16,21 @@
 </form>
 
 
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const form = document.querySelector('form');
+
+        form.addEventListener('submit', function (e) {
+            Swal.fire({
+                title: "Guardando...",
+                text: "Por favor espera",
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+        });
+    });
+</script>
+
 @endsection

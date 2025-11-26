@@ -7,7 +7,7 @@ use App\Models\Country;
 
 class CountryController extends Controller
 {
-    public function index(){
+    public function index(){ 
         $countries = Country::paginate(10); //Select * from countries;
         //$c = DB::table('countries')->first();
         return view('admin.country.index', compact('countries'));

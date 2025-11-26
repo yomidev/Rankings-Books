@@ -40,11 +40,54 @@ class AuthorController extends Controller
         $author->id_country = $validate['country_id'];
         $author->photo = 'images/authors/'.$filename;
 
-       
-
         $author->save();
         return redirect()->route('admin.author.index')->with('success', 'Autor creado exitosamente.');
+    }
 
-        
+    public function edit($id){
+        $author = Author::with('country')->findOrFail($id);
+        $countries = Country::all();
+        return view('admin.author.edit', compact('author', 'countries'));
+    }
+
+    public function update(Request $request, $id){
+        $validate = $request->validate([
+            'name' => 'required|max:255',
+            'biography' => 'required',
+            'website' => 'required|url',
+            'country_id' => 'required|exists:countries,id',
+        ]);
+
+         if($request->hasFile('photo')){
+            $archivo_actual = Author::findOrFail($id);
+            //dd($archivo_actual->photo);
+            if(file_exists(public_path($archivo_actual->photo))){
+                unlink(public_path($archivo_actual->photo));
+            }
+            $file = $request->file('photo');
+            $filename = time().'_'.$file->getClientOriginalName();
+            $file->move(public_path('images/authors'), $filename);
+        }
+
+        $author = Author::findOrFail($id);
+        $author->name = $validate['name'];
+        $author->biography = $validate['biography'];
+        $author->website = $validate['website'];
+        $author->id_country = $validate['country_id'];
+        if($request->hasFile('photo')){
+            $author->photo = 'images/authors/'.$filename;
+        }
+        $author->save();
+        return redirect()->route('admin.author.index')->with('success', 'Autor actualizado exitosamente.');
+    }
+
+    public function delete($id){
+        $author = Author::findOrFail($id);
+         if(file_exists(public_path($author->photo))){
+            unlink(public_path($author->photo));
+        }
+        $author->delete();
+        return redirect()->route('admin.author.index')->with('success', 'Autor eliminado exitosamente.');
+
     }
 }
