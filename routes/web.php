@@ -28,7 +28,6 @@ Route::middleware('admin')->group(function(){
     Route::get('/admin/country/edit/{id}', [CountryController::class, 'edit'])->name('admin.country.edit');
     Route::put('/admin/country/update/{id}', [CountryController::class, 'update'])->name('admin.country.update');
     Route::delete('/admin/country/delete/{id}', [CountryController::class, 'delete'])->name('admin.country.delete');
-
     Route::get('/admin/authors',[AuthorController::class, 'index'])->name('admin.author.index');
     Route::get('/admin/authors/create',[AuthorController::class, 'create'])->name('admin.author.create');
     Route::post('/admin/authors/save',[AuthorController::class, 'save'])->name('admin.author.save');

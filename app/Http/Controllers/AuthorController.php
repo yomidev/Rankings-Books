@@ -18,7 +18,8 @@ class AuthorController extends Controller
         return view('admin.author.create', compact('countries'));
     }
 
-    public function save(Request $request){
+    public function save(Request $request)
+    {
         $validate = $request->validate([
             'name' => 'required|max:255',
             'biography' => 'required',
@@ -27,7 +28,8 @@ class AuthorController extends Controller
             'photo' => 'required|image|max:2048',
         ]);
 
-         if($request->hasFile('photo')){
+        $filename = null;
+        if($request->hasFile('photo')){
             $file = $request->file('photo');
             $filename = time().'_'.$file->getClientOriginalName();
             $file->move(public_path('images/authors'), $filename);
@@ -37,7 +39,7 @@ class AuthorController extends Controller
         $author->name = $validate['name'];
         $author->biography = $validate['biography'];
         $author->website = $validate['website'];
-        $author->id_country = $validate['country_id'];
+        $author->id_country = $validate['country_id']; // si tu columna es id_country
         $author->photo = 'images/authors/'.$filename;
 
         $author->save();
@@ -50,35 +52,36 @@ class AuthorController extends Controller
         return view('admin.author.edit', compact('author', 'countries'));
     }
 
-    public function update(Request $request, $id){
+    public function update(Request $request, $id)
+    {
+        $author = Author::findOrFail($id);
+
         $validate = $request->validate([
             'name' => 'required|max:255',
             'biography' => 'required',
             'website' => 'required|url',
             'country_id' => 'required|exists:countries,id',
+            'photo' => 'nullable|image|max:2048', // no requerido en edición
         ]);
 
-         if($request->hasFile('photo')){
-            $archivo_actual = Author::findOrFail($id);
-            //dd($archivo_actual->photo);
-            if(file_exists(public_path($archivo_actual->photo))){
-                unlink(public_path($archivo_actual->photo));
-            }
-            $file = $request->file('photo');
-            $filename = time().'_'.$file->getClientOriginalName();
-            $file->move(public_path('images/authors'), $filename);
-        }
-
-        $author = Author::findOrFail($id);
         $author->name = $validate['name'];
         $author->biography = $validate['biography'];
         $author->website = $validate['website'];
         $author->id_country = $validate['country_id'];
+
         if($request->hasFile('photo')){
+            // Eliminar foto anterior si existe
+            if($author->photo && file_exists(public_path($author->photo))){
+                unlink(public_path($author->photo));
+            }
+            $file = $request->file('photo');
+            $filename = time().'_'.$file->getClientOriginalName();
+            $file->move(public_path('images/authors'), $filename);
             $author->photo = 'images/authors/'.$filename;
         }
+
         $author->save();
-        return redirect()->route('admin.author.index')->with('success', 'Autor actualizado exitosamente.');
+        return redirect()->route('admin.author.index')->with('success', 'Autor actualizado correctamente.');
     }
 
     public function delete($id){
