@@ -7,7 +7,8 @@ use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Auth;
 
-class AdminMiddleware
+
+class UserMiddleware
 {
     /**
      * Handle an incoming request.
@@ -16,7 +17,7 @@ class AdminMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!Auth::check() || Auth::user()->role !== 2){
+        if (!Auth::check() || Auth::user()->role == 3){
             abort(403, 'No tienes permisos consulta al administrador');
         }
         return $next($request);
