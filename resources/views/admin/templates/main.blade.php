@@ -64,6 +64,12 @@
                             <a href="{{ route('admin.author.index') }}" class="flex items-center px-3 py-2 text-sm text-gray-600 dark:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 {{ request()->routeIs('admin.author.index') ? 'bg-gray-100 dark:bg-gray-700' : '' }}">
                                 Autores
                             </a>
+                            <a href="{{ route('admin.genres') }}" class="flex items-center px-3 py-2 text-sm text-gray-600 dark:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 {{ request()->routeIs('admin.author.index') ? 'bg-gray-100 dark:bg-gray-700' : '' }}">
+                                Géneros
+                            </a>
+                            <a href="{{ route('admin.books') }}" class="flex items-center px-3 py-2 text-sm text-gray-600 dark:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 {{ request()->routeIs('admin.author.index') ? 'bg-gray-100 dark:bg-gray-700' : '' }}">
+                                Libros
+                            </a>
                         </div>
                     </div>
                 </nav>
@@ -111,6 +117,10 @@
             <main class="p-4 md:p-6">
                 @yield('content')
             </main>
+             <main class="p-4 md:p-6">
+                @yield('x')
+            </main>
+            
         </div>
     </div>
     @stack('scripts')
