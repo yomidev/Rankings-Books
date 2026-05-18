@@ -4,12 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Country;
-use PHPUnit\Framework\Constraint\Count;
 
 class CountryController extends Controller
 {
-    public function index(){
-        $countries = Country::all(); //Select * from countries;
+    public function index(){ 
+        $countries = Country::paginate(10); //Select * from countries;
         //$c = DB::table('countries')->first();
         return view('admin.country.index', compact('countries'));
     }
@@ -20,14 +19,14 @@ class CountryController extends Controller
 
     public function save(Request $request){
         $validate = $request->validate([
-            'name' => 'required|max:255',
+            'name' => 'required|max:255|unique:countries,name',
         ]);
 
         $country = new Country;
-        $country->name = $request->name;
+        $country->name = $validate['name'];
         $country->save();
 
-        return redirect()->route('admin.country');
+        return redirect()->route('admin.country')->with('success', 'País creado exitosamente.');
     }
 
     public function edit($id){
@@ -37,20 +36,20 @@ class CountryController extends Controller
 
     public function update(Request $request, $id){
         $validate = $request->validate([
-            'name' => 'required|max:255',
+            'name' => 'required|max:255|unique:countries,name',
         ]);
 
         $country = Country::findOrFail($id);
-        $country->name = $request->name;
+        $country->name = $validate['name'];
         $country->save();
 
-        return redirect()->route('admin.country');
+        return redirect()->route('admin.country')->with('success', 'País actualizado exitosamente.');
     }
 
     public function delete($id){
         $country = Country::findOrFail($id);
         $country->delete();
-        return redirect()->route('admin.country');
+        return redirect()->route('admin.country')->with('success', 'País eliminado exitosamente.');
 
     }
 }
